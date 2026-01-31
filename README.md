@@ -1,25 +1,29 @@
 # DVAM-Group-9-Final-Project
 MOF材料的CO₂吸附性能与自身结构特征、元素组成的相关性分析
 
-一、项目概述
+# Read Me：MOF材料CO₂吸附性能预测——随机森林与XGBoost模型分析
+
+# 一、项目概述
 本项目基于hypothetical MOF（hMOF）数据库的模拟数据，构建并优化随机森林回归与XGBoost回归模型，旨在揭示MOF材料的结构特征、元素组成与CO₂吸附性能的相关性，实现CO₂吸附量的高精度预测。通过数据驱动方法，为MOF材料的高通量筛选、定向结构优化及碳捕获技术（CCS）的工业化应用提供支撑，彰显集成学习在材料科学创新中的核心价值。
 
 核心目标：
 1. 挖掘MOF材料结构-性能关系（SPR），识别影响CO₂吸附的关键特征；
 2. 构建高性能机器学习模型，实现CO₂吸附量精准预测；
 3. 对比两种集成学习模型的优劣与适用场景，提供实用化技术方案。
-   
- 二、文件结构
+
+#二、文件结构
+```
 ├── train_dataset.csv       # 基础训练集（900条MOF样本，含23个特征+吸附量标签）
 ├── adsorption_CO2.csv      # CO₂吸附专用数据集（1000条样本，补充训练数据）
 ├── test_dataset.csv        # 独立测试集（200条样本，模型性能评估）
 ├── statistical_analysis.csv# 数据统计总结（含count/mean/std/min/分位数/max）
-├── CO2_adsorption_xgboost  # 核心代码文件（数据预处理、EDA、模型训练与可视化）
 ├── RandomForestRegressor.ipynb  # 核心代码文件（数据预处理、EDA、模型训练与可视化）
+├──CO2_adsorption_xgboost.ipynb  # 核心代码文件（数据预处理、EDA、模型训练与可视化）
 └── 数据可视化技术报告.docx  # 完整分析报告（背景、方法、结果、结论）
+```
 
-三、环境配置
-依赖库版本建议
+#三、环境配置
+#依赖库版本建议
 - Python ≥ 3.7
 - pandas ≥ 1.0
 - numpy ≥ 1.18
@@ -27,10 +31,13 @@ MOF材料的CO₂吸附性能与自身结构特征、元素组成的相关性分
 - matplotlib ≥ 3.0（可视化绘图）
 - seaborn ≥ 0.10（相关性热图、特征重要性图）
 - Jupyter Notebook（代码运行与结果查看）
- 安装命令
-pip install pandas numpy scikit-learn matplotlib seaborn jupyter
 
-四、使用步骤
+#安装命令
+```bash
+pip install pandas numpy scikit-learn matplotlib seaborn jupyter
+```
+
+#四、使用步骤
 1. 文件准备：将所有数据文件（.csv）与代码文件（.ipynb）放在同一目录下；
 2. 启动环境：终端运行 `jupyter notebook`，在浏览器中打开 `RandomForestRegressor.ipynb`；
 3. 代码执行：按 Notebook 中代码顺序逐块运行（快捷键 `Shift+Enter`），涵盖：
@@ -42,14 +49,15 @@ pip install pandas numpy scikit-learn matplotlib seaborn jupyter
    - 特征重要性与机制解析；
 4. 结果查看：代码运行后将自动生成可视化图表，同时输出模型评估指标与核心结论。
 
-五、核心结果
+#五、核心结果
  1. 模型性能对比
 | 模型         | 测试集R² | 测试集RMSE（mmol/g） | 交叉验证R² |
 |--------------|----------|----------------------|------------|
 | 随机森林回归 | 0.89     | 0.48                 | 0.85       |
 | XGBoost回归  | 0.91     | 0.42                 | 0.88       |
 
-2. 关键影响特征
+
+ 2. 关键影响特征
 双模型一致识别核心特征（合计贡献超40%预测权重）：
 - 空隙率（void_fraction）：重要性0.26~0.28，0.2为吸附阈值（低于该值吸附量趋近于0），0.2~0.6区间吸附量快速上升，0.6后趋于饱和；
 - 孔限直径（pld）：重要性0.14~0.16，最佳区间10~15 Å（适配CO₂分子尺寸≈3.3 Å，平衡扩散效率与吸附位点密度）。
@@ -59,14 +67,16 @@ pip install pandas numpy scikit-learn matplotlib seaborn jupyter
 - 元素选择：减少Zr元素使用，优先选择Zn、Cu等金属中心，控制H元素占比；
 - 筛选流程：先通过随机森林快速筛除低性能样本，再用XGBoost精准优化核心材料。
 
- 六、局限性
+#六、局限性
 1. 数据依赖hMOF模拟数据，未考虑实际合成中的晶体缺陷、湿度等影响；
 2. 元素特征存在冗余，可能影响模型泛化能力；
 3. 未涵盖温度、压力等动态因素对吸附性能的影响；
 4. XGBoost模型超参数调优复杂，可复现性略低于随机森林。
-   
-七、未来方向
+
+#七、未来方向
 1. 整合实验验证数据集，提升模型实用性；
 2. 引入PCA降维处理特征冗余，或集成图神经网络（GNN）捕捉MOF拓扑结构；
 3. 开展多目标优化（如同时兼顾吸附量与选择性）；
 4. 结合量子计算模拟，更精准解析吸附机制。
+
+
